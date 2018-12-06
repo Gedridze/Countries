@@ -1,0 +1,57 @@
+body{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+div.container {
+    display: inline-block;
+    padding: 15px;
+    margin: auto auto 15px;
+}
+
+table {
+    border: 2px solid black;
+    border-collapse: collapse;
+    margin: 15px auto auto;
+}
+
+td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+}
+
+a:focus{
+    outline:none;
+}
+
+td a{
+    text-decoration: none;
+}
+
+.paging{
+    padding: 0;
+    margin: 5px 0 0;
+}
+
+.paging li{
+    list-style-type: none;
+    display: inline-block;
+    border: 2px solid black;
+    text-decoration: none;
+}
+
+.paging li a{
+    padding: 3px;
+    text-decoration: none;
+    color: black
+}
+
+.paging li a:visited{
+    color: black;
+}
+.paging .inactive{
+    pointer-events: none;
+    background-color: lightgrey;
+}
