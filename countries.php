@@ -2,14 +2,16 @@
     Failo struktura identiska miestu atvaizdavimo failui.
     Kodo komentarai pateikti faile cities.php
 -->
-
+<?php session_start(); ?>
 <html>
 <head>
     <link type="text/css" rel="stylesheet" href="style.css">
 </head>
 <body>
 <?php include ('database.php');
+      include('countryModel.php');
 $database = new Database();
+$countryModel = new countryModel($database->connection);
 if(isset($_GET['page'])){
     $pageno = $_GET['page'];
 }
@@ -21,24 +23,55 @@ $no_per_page = config::RECORD_NUM_PER_PAGE;
 if(isset($_GET['search_string'])){
     $search_string = $_GET['search_string'];
     $link = "?search_string=".$_GET['search_string']."&";
-    $total_pages = ceil($database->getSearchedCountriesCount($_GET['search_string']) / $no_per_page);
-    $countries = $database->searchCountries($_GET['search_string'], $pageno, $no_per_page);
+    $total_pages = ceil($countryModel->getSearchedCountriesCount($_GET['search_string']) / $no_per_page);
+    $countries = $countryModel->searchCountries($_GET['search_string'], $pageno, $no_per_page);
+    if($pageno > $total_pages && $total_pages > 0){
+        header('Location: countries.php'.$link.'page='.$total_pages);
+        exit();
+    }
+    else if($pageno < 1) {
+        header('Location: countries.php'.$link.'page=1');
+        exit();
+    }
 }
 else {
     $search_string = "";
     $link = "?";
-    $total_pages = ceil($database->getCountriesCount() / $no_per_page);
-    $countries = $database->getCountries($pageno, $no_per_page);
+    $total_pages = ceil($countryModel->getCountriesCount() / $no_per_page);
+    $countries = $countryModel->getCountries($pageno, $no_per_page);
+    if($pageno > $total_pages && $total_pages > 0){
+        header('Location: countries.php?page='.$total_pages);
+        exit();
+    }
+    else if($pageno < 1) {
+        header('Location: countries.php?page=1');
+        exit();
+    }
 }
+
 
 ?>
 <div class="container">
+    <?php if(!empty($_SESSION['errors'])){?>
+    <div class="errors">
+
+        <?php foreach ($_SESSION['errors'] as $error){
+            echo "$error</br>";
+         } ?>
+    </div>
+
+    <?php $_SESSION['errors'] = array(); }
+            else if(isset($_SESSION['success']) && $_SESSION['success'] == 1){?>
+                <div class="success">
+                    Operacija sėkminga.
+                </div>
+    <?php $_SESSION['success'] = 0;}?>
     <fieldset style="margin-bottom: 10px">
         <legend>Pridėti šalį</legend>
         <form  action="storeCountry.php" method="post" >
-            <label>Pavadinimas: <input type="text" name="name" required></label>
-            <label>Gyventojų skaičius: <input type="number" name="population" required></label>
-            <label>Sostinė: <input type="text" name="capital" required></label>
+            <label>Pavadinimas: <input type="text" name="name"></label>
+            <label>Gyventojų skaičius: <input type="number" name="population" value="0"></label>
+            <label>Sostinė: <input type="text" name="capital"></label>
             <button type="submit">Pridėti</button>
         </form>
     </fieldset>
@@ -83,7 +116,9 @@ else {
             </li>
             <li><a href="<?php echo $link; ?>page=<?php echo $total_pages ?>">Paskutinis</a></li>
         </ul>
-    <?php } else echo "Šalių nerasta"?>
+    <?php } else {echo "Šalių nerasta</br>";?>
+    <a href="countries.php"><< Visos šalys</a>
+    <?php } ?>
 </div>
 </body>
 </html>

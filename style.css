@@ -55,3 +55,13 @@ td a{
     pointer-events: none;
     background-color: lightgrey;
 }
+
+.errors{
+    background-color: lightcoral;
+    padding: 10px;
+}
+
+.success{
+    background-color: lightgreen;
+    padding: 10px;
+}
