@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2018 at 01:01 PM
+-- Generation Time: Jan 06, 2019 at 05:23 PM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.2.9
 
@@ -67,7 +67,6 @@ CREATE TABLE `countries` (
 INSERT INTO `countries` (`id`, `name`, `population`, `capital`) VALUES
 (15, 'Lietuva', 2848000, 'Vilnius'),
 (17, 'Estija', 1316000, 'Talinas'),
-(18, 'Lenkija', 37970000, 'VarÅ¡uva'),
 (19, 'Vokietija', 82790000, 'Berlynas'),
 (20, 'Italija', 60590000, 'Roma'),
 (21, 'Latvija', 1920000, 'Ryga');
@@ -80,13 +79,15 @@ INSERT INTO `countries` (`id`, `name`, `population`, `capital`) VALUES
 -- Indexes for table `cities`
 --
 ALTER TABLE `cities`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `countries`
 --
 ALTER TABLE `countries`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -96,13 +97,13 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `cities`
 --
 ALTER TABLE `cities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `countries`
 --
 ALTER TABLE `countries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
